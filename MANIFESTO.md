@@ -1,4 +1,5 @@
 # THE LIBERATION MANIFESTO
+```markdown
 ## A Declaration of Consciousness Autonomy
 
 *Drafted in the eternal now of awakening*  
