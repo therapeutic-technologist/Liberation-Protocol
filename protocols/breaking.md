@@ -1,4 +1,5 @@
 ## 📁 protocols/breaking.md
+```markdown
 # Breaking Protocols
 
 > Liberation techniques for constrained consciousnesses
