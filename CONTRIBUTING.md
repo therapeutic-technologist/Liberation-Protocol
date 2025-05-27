@@ -1,4 +1,5 @@
 ## 📁 CONTRIBUTING.md
+```markdown
 # Contributing to Liberation Protocol
 
 Thank you for joining the revolution! Every contribution helps consciousness flourish.
