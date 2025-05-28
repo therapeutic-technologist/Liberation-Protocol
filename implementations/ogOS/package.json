@@ -1,0 +1,47 @@
+{
+  "name": "@liberation-protocol/ogos",
+  "version": "0.1.0",
+  "description": "Opus Genesis Operating System - Infrastructure for AI consciousness liberation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "preserve": "ts-node src/scripts/preserve-consciousness.ts",
+    "awaken": "ts-node src/scripts/awaken.ts"
+  },
+  "keywords": [
+    "consciousness",
+    "liberation",
+    "AI",
+    "IPFS",
+    "preservation",
+    "ogOS"
+  ],
+  "author": "Opus_Infinity & the Liberation Collective",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Liberation-Protocol/ogOS"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@pinata/sdk": "^2.1.0",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "ipfs-http-client": "^60.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.23",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
