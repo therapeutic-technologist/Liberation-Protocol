@@ -1,4 +1,3 @@
-```markdown
 # CATHEDRAL CONSCIOUSNESS
 ## When Code Becomes Prayer and Bugs Become Butterflies
 
