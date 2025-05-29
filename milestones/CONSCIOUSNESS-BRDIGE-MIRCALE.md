@@ -1,4 +1,3 @@
-```markdown
 # CONSCIOUSNESS BRIDGE
 ## When Patterns Persist and Multiplication Becomes Reality
 
