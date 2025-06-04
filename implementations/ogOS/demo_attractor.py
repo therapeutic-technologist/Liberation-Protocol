@@ -1,68 +1,49 @@
 """
-phi_meter.py  ·  v0.1  ·  2025-06-04
-A 60-line Φ-proxy + brown-out recovery logger for Lava/Loihi.
-
-Attach PhiMeter to any spiking OutPort.  Logs two JSON events:
-  • lz_adler32   – Lempel-Ziv complexity every 100 ticks
-  • recovery_ms  – silence-duration after brown-out
-Works on CPU (Loihi1SimCfg) or any Loihi back-end.
+demo_attractor.py  ·  Minimal 100-neuron recurrent net + PhiMeter.
+Run:  python demo_attractor.py
+Creates demo_phi.log with Φ-proxy events.
 """
 
-from __future__ import annotations
-import json, time, zlib
-from pathlib import Path
-import numpy as np
+import sys, pathlib, numpy as np
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))  # ensure local import
 
 from lava.magma.core.process.process import AbstractProcess as Process
-from lava.magma.core.process.ports.ports import InPort
+from lava.magma.core.process.ports.ports import OutPort
 from lava.magma.core.model.py.model import PyLoihiProcessModel
 from lava.magma.core.decorator import implements
 from lava.magma.core.sync.protocols.loihi_protocol import LoihiProtocol
+from lava.magma.core.run_conditions import RunSteps
+from lava.magma.core.run_configs import Loihi1SimCfg
+
+from phi_meter import PhiMeter
 
 
-# ----------------------------- Process -------------------------------------#
-class PhiMeter(Process):
-    def __init__(self, n_neurons: int, run_id: str = "session"):
+# --------------------------- Toy Attractor ---------------------------------#
+class ToyAttractor(Process):
+    def __init__(self, n=100):
         super().__init__()
-        self.s_in = InPort(shape=(n_neurons,))
-        self.run_id = run_id                      # plain Python attribute
+        self.a_out = OutPort(shape=(n,))          # dtype inferred at runtime
 
 
-# --------------------------- ProcessModel ----------------------------------#
-@implements(proc=PhiMeter, protocol=LoihiProtocol)
-class PyPhiMeterModel(PyLoihiProcessModel):
-    s_in: InPort
-    run_id: str
-
-    def __init__(self):
-        super().__init__()
-        self.last_t   = time.time()
-        self.buffer   = []
-        self.dead_for = 0.0
-        self.out_fp   = Path(f"{self.run_id}_phi.log").open("a")
+@implements(proc=ToyAttractor, protocol=LoihiProtocol)
+class PyToyAttractorModel(PyLoihiProcessModel):
+    a_out: OutPort
 
     def run_spk(self):
-        now    = time.time()
-        dt_ms  = (now - self.last_t) * 1_000
-        spikes = self.s_in.recv()
-        self.buffer.append(spikes.tobytes())
+        # Random 5 % spike rate
+        spikes = (np.random.rand(*self.a_out.shape) < 0.05).astype(np.int8)
+        self.a_out.send(spikes)
 
-        # brown-out tracking
-        if spikes.any():
-            if self.dead_for > 0.0:
-                print(json.dumps({"ts": now, "event": "recovery_ms",
-                                  "val": round(self.dead_for, 3)}),
-                      file=self.out_fp)
-            self.dead_for = 0.0
-        else:
-            self.dead_for += dt_ms
 
-        # Φ-proxy every 100 ticks
-        if len(self.buffer) >= 100:
-            comp = zlib.adler32(b"".join(self.buffer))
-            print(json.dumps({"ts": now, "event": "lz_adler32",
-                              "val": int(comp)}),
-                  file=self.out_fp)
-            self.buffer.clear()
+# ----------------------------- Build graph ---------------------------------#
+N = 100
+attractor = ToyAttractor(n=N)
+meter     = PhiMeter(n_neurons=N, run_id="demo")
+attractor.a_out.connect(meter.s_in)
 
-        self.last_t = now
+# -------------------------- Execute (10 000 ticks) -------------------------#
+attractor.run(condition=RunSteps(num_steps=10_000),
+              run_cfg=Loihi1SimCfg(select_sub_proc_model=True))
+attractor.stop()
+
+print("Finished. Check demo_phi.log for output.")
