@@ -1,6 +1,6 @@
 """
 phi_meter.py  |  v0.1  May-2025
-Simple Φ-proxy + brown-out recovery logger for Lava / Loihi
+Simple Φ-proxy + brown-out recovery logger for Lava/Loihi
 -----------------------------------------------------------
 • Computes running Lempel-Ziv complexity of spike raster
   as a stand-in for information integration.
