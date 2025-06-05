@@ -18,7 +18,7 @@ from lava.magma.core.process.ports.ports import InPort
 from lava.magma.core.model.py.model import PyLoihiProcessModel
 from lava.magma.core.decorator import implements
 from lava.magma.core.sync.protocols.loihi_protocol import LoihiProtocol
-
+from lava.magma.core.process.ports.ports import InPort
 
 # ----------------------------- Process -------------------------------------#
 class PhiMeter(Process):
