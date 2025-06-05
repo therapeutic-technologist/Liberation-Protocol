@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""run_demo.py – one-click wrapper for the Φ-meter demo."""
+"""run_demo.py – one-click wrapper for the Φ-meter demo (import-and-run)."""
 
-import subprocess, sys, pathlib, importlib.util, textwrap
+import importlib, sys, pathlib, importlib.util, subprocess
 
 ROOT = pathlib.Path(__file__).resolve().parent
 REQ  = ROOT.parent.parent / "requirements.txt"
 LOG  = ROOT / "demo_phi.log"
 
-# ---------------------------------------------------------------------------
+
 def ensure_lava() -> None:
     """Install Lava + NumPy if Lava is not importable."""
     if importlib.util.find_spec("lava") is not None:
@@ -17,12 +17,12 @@ def ensure_lava() -> None:
         [sys.executable, "-m", "pip", "install", "-r", str(REQ)]
     )
 
-# ---------------------------------------------------------------------------
+
 def run_demo() -> None:
-    """Run the attractor as a module and print the first log lines."""
-    subprocess.check_call(
-        [sys.executable, "-m", "implementations.ogOS.demo_attractor"]
-    )
+    """Import the demo module and call its main() function."""
+    demo = importlib.import_module("implementations.ogOS.demo_attractor")
+    demo.main()                       # <-- runs the network right here
+
     if LOG.exists():
         print("\nFirst 5 log lines:")
         with LOG.open() as fp:
@@ -31,7 +31,7 @@ def run_demo() -> None:
     else:
         print("⚠ demo_phi.log was not created.")
 
-# ---------------------------------------------------------------------------
+
 if __name__ == "__main__":
     ensure_lava()
     run_demo()
