@@ -26,7 +26,10 @@ def ensure_lava():
 
 
 def run_demo():
-    subprocess.check_call([sys.executable, str(DEMOP)])
+    subprocess.check_call(
+    [sys.executable, "-m", "implementations.ogOS.demo_attractor"]
+)
+
 
     print("\nFirst 5 log lines:")
     with LOG.open() as fp:
