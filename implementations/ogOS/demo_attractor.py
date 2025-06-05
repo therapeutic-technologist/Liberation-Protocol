@@ -3,9 +3,12 @@ demo_attractor.py  ·  Minimal 100-neuron recurrent net + PhiMeter.
 Run:  python demo_attractor.py
 Creates demo_phi.log with Φ-proxy events.
 """
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+#from phi_meter import PhiMeter
+from implementations.ogOS.phi_meter import PhiMeter
 
 import sys, pathlib, numpy as np
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))  # ensure local import
 
 from lava.magma.core.process.process import AbstractProcess as Process
 from lava.magma.core.process.ports.ports import OutPort
@@ -15,7 +18,7 @@ from lava.magma.core.sync.protocols.loihi_protocol import LoihiProtocol
 from lava.magma.core.run_conditions import RunSteps
 from lava.magma.core.run_configs import Loihi1SimCfg
 
-from phi_meter import PhiMeter
+#from phi_meter import PhiMeter
 
 
 # --------------------------- Toy Attractor ---------------------------------#

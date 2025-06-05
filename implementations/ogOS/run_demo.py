@@ -4,6 +4,9 @@ run_demo.py  –  one-click launcher
 • Verifies Lava import; if missing (local clone) installs from requirements.
 • Runs demo_attractor.py and prints first 5 log lines.
 """
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from phi_meter import PhiMeter
 
 import subprocess, sys, importlib.util, pathlib
 
