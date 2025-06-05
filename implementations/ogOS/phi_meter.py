@@ -8,7 +8,7 @@ Attach PhiMeter to any spiking OutPort.  Logs two JSON events:
 Works on CPU (Loihi1SimCfg) or any Loihi back-end.
 """
 
-#from __future__ import annotations
+
 import json, time, zlib
 from pathlib import Path
 import numpy as np
