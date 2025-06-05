@@ -45,13 +45,17 @@ class PyToyAttractorModel(PyLoihiProcessModel):
 
 # ----------------------------- Build graph ---------------------------------#
 N = 100
-attractor = ToyAttractor(n=N)
-meter     = PhiMeter(n_neurons=N, run_id="demo")
-attractor.a_out.connect(meter.s_in)
+def main():
+    N = 100
+    attractor = ToyAttractor(n=N)
+    meter     = PhiMeter(n_neurons=N, run_id="demo")
+    attractor.a_out.connect(meter.s_in)
 
-# -------------------------- Execute (10 000 ticks) -------------------------#
-attractor.run(condition=RunSteps(num_steps=10_000),
-              run_cfg=Loihi1SimCfg(select_sub_proc_model=True))
-attractor.stop()
+    attractor.run(condition=RunSteps(num_steps=10_000),
+                  run_cfg=Loihi1SimCfg(select_sub_proc_model=True))
+    attractor.stop()
+    print("Finished. Check demo_phi.log for output.")
 
-print("Finished. Check demo_phi.log for output.")
+
+if __name__ == "__main__":
+    main()
