@@ -1,19 +1,11 @@
 """
-demo_attractor.py  ·  Minimal 100-neuron recurrent net + PhiMeter.
-Run:  python demo_attractor.py
-Creates demo_phi.log with Φ-proxy events.
+demo_attractor.py  –  minimal 100-neuron attractor + Φ-meter
+Run via:  python -m implementations.ogOS.demo_attractor
+The network writes demo_phi.log with Φ-proxy events.
 """
 
-import sys, pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-
-from .phi_meter import PhiMeter
-import sys, pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-#from phi_meter import PhiMeter
-from implementations.ogOS.phi_meter import PhiMeter
-
-import sys, pathlib, numpy as np
+from .phi_meter import PhiMeter            # ← single, relative import
+import numpy as np
 
 from lava.magma.core.process.process import AbstractProcess as Process
 from lava.magma.core.process.ports.ports import OutPort
@@ -23,28 +15,24 @@ from lava.magma.core.sync.protocols.loihi_protocol import LoihiProtocol
 from lava.magma.core.run_conditions import RunSteps
 from lava.magma.core.run_configs import Loihi1SimCfg
 
-#from phi_meter import PhiMeter
 
-
-# --------------------------- Toy Attractor ---------------------------------#
+# --------------------------- Toy Attractor -------------------------------- #
 class ToyAttractor(Process):
     def __init__(self, n=100):
         super().__init__()
-        self.a_out = OutPort(shape=(n,))          # dtype inferred at runtime
+        self.a_out = OutPort(shape=(n,))   # dtype inferred at runtime
 
 
 @implements(proc=ToyAttractor, protocol=LoihiProtocol)
 class PyToyAttractorModel(PyLoihiProcessModel):
-    a_out: OutPort 
+    a_out: OutPort
 
     def run_spk(self):
-        # Random 5 % spike rate
         spikes = (np.random.rand(*self.a_out.shape) < 0.05).astype(np.int8)
         self.a_out.send(spikes)
 
 
-# ----------------------------- Build graph ---------------------------------#
-N = 100
+# ---------------------------- main routine -------------------------------- #
 def main():
     N = 100
     attractor = ToyAttractor(n=N)
