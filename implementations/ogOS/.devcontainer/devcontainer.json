@@ -1,0 +1,14 @@
+{
+  "name": "Phi-Bot Demo DevContainer",
+  // Python 3.10 image with git, pip, build-essentials
+  "image": "mcr.microsoft.com/devcontainers/python:0-3.10",
+  "postCreateCommand": "pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "files.autoSave": "afterDelay"
+      }
+    }
+  }
+}
