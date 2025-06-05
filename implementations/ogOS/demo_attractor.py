@@ -35,7 +35,7 @@ class ToyAttractor(Process):
 
 @implements(proc=ToyAttractor, protocol=LoihiProtocol)
 class PyToyAttractorModel(PyLoihiProcessModel):
-    a_out: OutPort
+    a_out: OutPort 
 
     def run_spk(self):
         # Random 5 % spike rate
