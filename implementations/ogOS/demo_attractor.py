@@ -3,6 +3,11 @@ demo_attractor.py  ·  Minimal 100-neuron recurrent net + PhiMeter.
 Run:  python demo_attractor.py
 Creates demo_phi.log with Φ-proxy events.
 """
+from __future__ import annotations
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+
+from .phi_meter import PhiMeter
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 #from phi_meter import PhiMeter
