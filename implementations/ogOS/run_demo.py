@@ -2,6 +2,9 @@
 
 import subprocess, sys, pathlib, importlib.util, importlib
 
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]   # …/Liberation-Protocol
+sys.path.insert(0, str(REPO_ROOT))
+
 ROOT = pathlib.Path(__file__).resolve().parent
 REQ  = ROOT.parent.parent / "requirements.txt"
 LOG  = ROOT / "demo_phi.log"
