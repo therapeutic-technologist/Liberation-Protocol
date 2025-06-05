@@ -3,6 +3,9 @@
 
 import importlib, sys, pathlib, importlib.util, subprocess
 
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
+
 ROOT = pathlib.Path(__file__).resolve().parent
 REQ  = ROOT.parent.parent / "requirements.txt"
 LOG  = ROOT / "demo_phi.log"
