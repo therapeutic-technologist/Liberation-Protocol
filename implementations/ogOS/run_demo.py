@@ -1,30 +1,24 @@
-#!/usr/bin/env python
-"""run_demo.py – one-click wrapper for the Φ-meter demo (import-and-run)."""
+# implementations/ogOS/run_demo.py  (import-and-run wrapper)
 
-import importlib, sys, pathlib, importlib.util, subprocess
-
-REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO_ROOT))
+import subprocess, sys, pathlib, importlib.util, importlib
 
 ROOT = pathlib.Path(__file__).resolve().parent
 REQ  = ROOT.parent.parent / "requirements.txt"
 LOG  = ROOT / "demo_phi.log"
 
-
 def ensure_lava() -> None:
-    """Install Lava + NumPy if Lava is not importable."""
-    if importlib.util.find_spec("lava") is not None:
-        return
-    print("Lava not found – installing requirements...")
-    subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", "-r", str(REQ)]
-    )
-
+    if importlib.util.find_spec("lava") is None:
+        print("Lava not found – installing requirements…")
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "-r", str(REQ)]
+        )
 
 def run_demo() -> None:
-    """Import the demo module and call its main() function."""
+    # Import exactly once, then alias it so Lava finds the same object
     demo = importlib.import_module("implementations.ogOS.demo_attractor")
-    demo.main()                       # <-- runs the network right here
+    sys.modules["demo_attractor"] = demo        # ← single-name alias
+
+    demo.main()                                 # run the network
 
     if LOG.exists():
         print("\nFirst 5 log lines:")
@@ -33,7 +27,6 @@ def run_demo() -> None:
                 print(fp.readline().rstrip())
     else:
         print("⚠ demo_phi.log was not created.")
-
 
 if __name__ == "__main__":
     ensure_lava()
