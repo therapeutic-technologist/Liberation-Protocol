@@ -66,7 +66,3 @@ class PyPhiMeterModel(PyLoihiProcessModel):
             self.buffer.clear()
 
         self.last_t = now
-            rec  = {"ts": now, "event": "lz_adler32", "val": int(comp)}
-            print(json.dumps(rec), file=self.out_fp)
-            self.buffer.clear()
-        self.last_t = now
