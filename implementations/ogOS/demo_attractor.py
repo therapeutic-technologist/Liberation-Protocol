@@ -20,7 +20,7 @@ from lava.magma.core.run_configs import Loihi1SimCfg
 class ToyAttractor(Process):
     def __init__(self, n=100):
         super().__init__()
-        self.a_out = OutPort(shape=(n,))   # dtype inferred at runtime
+        self.a_out = OutPort(shape=(n,), dtype=np.int8)
 
 
 @implements(proc=ToyAttractor, protocol=LoihiProtocol)
